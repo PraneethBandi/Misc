@@ -13,16 +13,89 @@ namespace PrepConsole
 
             //Sorting();
 
-            Trees();
+            //Trees();
+
+            //AVLTree();
+
+            Graph();
 
             Console.ReadLine();
+        }
+
+        private static void Graph()
+        {
+            Graph graph = new Graph(9);
+
+            graph.AddEdge(0, 1, 4);
+            graph.AddEdge(1, 2, 8);
+            graph.AddEdge(2, 3, 7);
+            graph.AddEdge(3, 4, 9);
+            graph.AddEdge(4, 5, 10);
+            graph.AddEdge(5, 6, 2);
+            graph.AddEdge(6, 7, 1);
+            graph.AddEdge(7, 0, 8);
+            graph.AddEdge(1, 7, 11);
+            graph.AddEdge(7, 8, 7);
+            graph.AddEdge(6, 8, 6);
+            graph.AddEdge(5, 2, 4);
+            graph.AddEdge(5, 3, 14);
+            graph.AddEdge(8, 2, 2);
+
+            graph.PrintGraph();
+
+            GraphTopics gt = new GraphTopics();
+
+            gt.FindShortedPath(graph, 0, 4);
+            gt.FindShortedPath(graph, 0, 8);
+            gt.FindShortedPath(graph, 3, 4);
+            gt.FindShortedPath(graph, 8, 5);
+        }
+
+        private static void AVLTree()
+        {
+            try
+            {
+                int[] a = new int[] { 15, 14, 2, 13, 12, 11, 10, 10, 9, 8, 5, 7, 6, 5, 20, 4, 12, 3, 2, 1, 0, -1, -2, -6, 18, 19, 21, 23, 24, 25 };
+
+                AVLTree tree = new AVLTree();
+                BinaryNode root = null;
+                for (int i = 0; i < a.Length; i++)
+                {
+                    root = tree.InsertNode(root, a[i]);
+                }
+
+                Console.WriteLine("LevelOrder");
+                TreeTopics nTree = new TreeTopics();
+                nTree.LevelOrderNodeWOMem(root);
+
+                Console.WriteLine("normal tree");
+
+                var node = nTree.InsertData(a[0], null);
+                for (int i = 1; i < a.Length; i++)
+                {
+                    nTree.InsertData(a[i], node);
+                }
+
+                var balanced = nTree.BalanceTreeRecursive(node);
+                Console.WriteLine("level order");
+                nTree.LevelOrderNodeWOMem(balanced);
+
+                Console.WriteLine("Inorder");
+                var result = nTree.InOrderTraversal(root);
+                foreach (var item in result) { Console.Write($"{item} | "); }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            
         }
 
         private static void Trees()
         {
             try
             {
-                int[] a = new int[] { 15, 14, 2, 13, 12, 11, 10, 10, 9, 8, 5, 7, 6, 5, 16, 4, 12, 3, 2, 1, 0, -1, -2, -6 };
+                int[] a = new int[] { 15, 14, 2, 13, 12, 11, 10, 10, 9, 8, 5, 7, 6, 5, 20, 4, 12, 3, 2, 1, 0, -1, -2, -6 , 18, 19, 21, 23, 24, 25 };
 
                 TreeTopics tree = new TreeTopics();
                 var node = tree.InsertData(a[0], null);
@@ -37,25 +110,42 @@ namespace PrepConsole
                 Console.WriteLine("lvtraversal WO mem");
                 tree.LevelOrderNodeWOMem(node);
 
-                //Console.WriteLine($"Height:{tree.FindHeight(node)}");
+                ////Console.WriteLine($"Height:{tree.FindHeight(node)}");
 
-                Console.WriteLine("inorderTraversal:");
-                var result = tree.PreOrderTraversal(node);
+                //Console.WriteLine("preOrderTraversal:");
+                //var result = tree.PreOrderTraversal(node);
 
-                foreach (var item in result){ Console.Write($"{item} | "); }
+                //foreach (var item in result){ Console.Write($"{item} | "); }
 
-                Console.WriteLine("serilaize");
-                var serData = tree.Serialize(node);
-                Console.WriteLine(serData);
+                //Console.WriteLine();
+                //Console.WriteLine("serilaize");
+                //var serData = tree.Serialize(node);
+                //Console.WriteLine(serData);
 
-                Console.WriteLine("Deserilaize");
-                var root = tree.DeSerialize(serData);
+                //Console.WriteLine("Deserilaize");
+                //var root = tree.DeSerialize(serData);
 
-                Console.WriteLine("lvtraversal WO mem");
-                tree.LevelOrderNodeWOMem(root);
+                //Console.WriteLine("lvtraversal WO mem");
+                //tree.LevelOrderNodeWOMem(root);
 
+                //var result = tree.InOrderTraversal(node);
+                //foreach (var item in result){ Console.Write($"{item} | "); }
+                //Console.WriteLine();
 
-                
+                //BinaryNode root = tree.DeleteData(12, node);
+
+                //result = tree.InOrderTraversal(node);
+                //foreach (var item in result) { Console.Write($"{item} | "); }
+                //Console.WriteLine();
+
+                Console.WriteLine(tree.SearchDataInBST(8, node));
+                Console.WriteLine(tree.SearchDataInBST(3, node));
+                Console.WriteLine(tree.SearchDataInBST(-6, node));
+                Console.WriteLine(tree.SearchDataInBST(19, node));
+                Console.WriteLine(tree.SearchDataInBST(22, node));
+                Console.WriteLine(tree.SearchDataInBST(15, node));
+                Console.WriteLine(tree.SearchDataInBST(20, node));
+
             }
             catch (Exception ex)
             {
@@ -63,11 +153,13 @@ namespace PrepConsole
             }
         }
 
+
+
         private static void Sorting()
         {
             try
             {
-                int[] a = new int[] { 15, 14, 2, 13, 12, 11, 10, 10, 9, 8, 5, 7, 6, 5, 16, 4, 12, 3, 2, 1, 0, -1, -2, -6 };
+                int[] a = new int[] { 15, 14, 2, 13, 12, 11, 10, 10, 9, 8, 5, 7, 6, 5, 16, 4, 12, 3, 2, 1, 0, -1, -2, -6, 20, 18, 19, 21, 23, 24, 25 };
                 int[] b = new int[] { 1, 2, 3, 5, 7 };
                 int[] c = new int[] { 0, -1 };
                 int[] d = new int[] { -4, -5, -10, -2 };

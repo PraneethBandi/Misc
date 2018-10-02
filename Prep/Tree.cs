@@ -63,28 +63,85 @@ namespace Prep
             return node;
         }
 
-        public bool DeleteData(int data, BinaryNode node)
+        public BinaryNode DeleteData(int data, BinaryNode node)
         {
-            return false;
+            if (node == null)
+                return null;
+
+            if (data < (int)node.Data)
+                node.Left = DeleteData(data, node.Left);
+            else if (data > (int)node.Data)
+                 node.Right = DeleteData(data, node.Right);
+            else
+            {
+                if (node.Left == null)
+                    return node.Right;
+                if (node.Right == null)
+                    return node.Left;
+
+                int min = FinMin(node.Right);
+                node.Right = DeleteData(min, node.Right);
+                node.Data = min;
+            }
+            return node;
+        }
+
+        private int FindMax(BinaryNode node)
+        {
+            int max = (int)node.Data;
+            BinaryNode temp = node.Right;
+
+            while (temp != null)
+            {
+                max = (int)temp.Data;
+                temp = temp.Right;
+            }
+
+            return max;
+        }
+
+        private int FinMin(BinaryNode node)
+        {
+            int min = (int)node.Data;
+            BinaryNode temp = node.Left;
+
+            while(temp != null)
+            {
+                min = (int)temp.Data;
+                temp = temp.Left;
+            }
+
+            return min;
         }
 
         public bool SearchDataInBST(int data, BinaryNode node)
         {
-            return false;
+            if (node == null)
+                return false;
+
+            if (data < (int)node.Data)
+                return SearchDataInBST(data, node.Left);
+            if (data > (int)node.Data)
+                return SearchDataInBST(data, node.Right);
+            else
+                return true;
         }
 
         public int SearchData(int data, BinaryNode node)
         {
+            //BFS or DFS
             return 0;
         }
 
         public bool BFS(int data, BinaryNode node)
         {
+            //LevelOrderTraversal
             return false;
         }
 
         public bool DFS(int data, BinaryNode node)
         {
+            //IN,pre,post order
             return false;
         }
 
@@ -179,9 +236,49 @@ namespace Prep
             }
         }
 
-        public void BalanceTree(BinaryNode node)
+        public BinaryNode BalanceTree(BinaryNode node)
         {
+            if (node == null)
+                return null;
 
+            int[] a = this.InOrderTraversal(node);
+
+            AVLTree tree = new AVLTree();
+            BinaryNode root = null;
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                root = tree.InsertNode(root, a[i]);
+            }
+
+            return root;
+        }
+
+        public BinaryNode BalanceTreeRecursive(BinaryNode node)
+        {
+            if (node == null)
+                return null;
+
+            int[] a = this.InOrderTraversal(node);
+            return buildSubTree(0, a.Length - 1, a);
+        }
+
+        private BinaryNode buildSubTree(int left, int right, int[] a)
+        {
+            if(left >= 0 && left <= right && right < a.Length)
+            {
+                int mid = (right + left) / 2;
+                BinaryNode root = new BinaryNode(a[mid], null, null);
+
+                if (left == right)
+                    return root;
+
+                root.Left = buildSubTree(left, mid - 1, a);
+                root.Right = buildSubTree(mid + 1, right, a);
+
+                return root;
+            }
+            return null;
         }
 
         public int FindHeight(BinaryNode node)
@@ -204,88 +301,62 @@ namespace Prep
                 return string.Empty;
 
             StringBuilder sb = new StringBuilder();
-            serlializeNode(node, sb, node);
+            serlializeNode(node, sb);
             return sb.ToString();
         }
 
-        public string SerializeWLevelOrder(BinaryNode node)
-        {
-            if (node == null)
-                return string.Empty;
-
-        }
-
-        private void serlializeNode(BinaryNode node, StringBuilder sb, BinaryNode parentNode)
+        private void serlializeNode(BinaryNode node, StringBuilder sb)
         {
             if (node == null)
                 return;
-            sb.Append($"{node.Data}|{parentNode.Data},");
-            serlializeNode(node.Left, sb, node);
-            serlializeNode(node.Right, sb, node);
+
+            sb.Append($"{node.Data},");
+
+            if (node.Left == null && node.Right == null)
+            { }
+            else if (node.Left == null)
+                sb.Append("/,");
+
+            serlializeNode(node.Left, sb);
+            serlializeNode(node.Right, sb);
+
+            sb.Append($"),");
         }
 
+//        private int index = 0;
         public BinaryNode DeSerialize(string input)
         {
             if (string.IsNullOrEmpty(input))
                 return null;
 
-            char nSep = ',';
+            string[] items = input.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
-            string[] nodes = input.Split(new char[] { nSep }, StringSplitOptions.RemoveEmptyEntries);
-
-            var rootItem = GetNodeAndParent(nodes[0]);
-            BinaryNode root = new BinaryNode(rootItem.Item1, null, null);
-
-            BuildTree(nodes, 1, root);
-            return root;
-        }
-
-        private Tuple<int,int> GetNodeAndParent(string item)
-        {
-            if (string.IsNullOrEmpty(item))
+            if (items.Length == 0)
                 return null;
-
-            var items = item.Split('|', StringSplitOptions.RemoveEmptyEntries);
-            return new Tuple<int, int>(int.Parse(items[0]), int.Parse(items[1]));
+            int index = 0;
+            return BuildNode(ref index, items);
         }
 
-        private int BuildTree(string[] items, int index, BinaryNode node)
+        private BinaryNode BuildNode(ref int index, string[] items)
         {
-            if (index >= items.Length)
-                return int.MaxValue;
-
-            int parent = (int)node.Data;
-            var values = GetNodeAndParent(items[index]);
-
-            if (values == null)
-                throw new Exception("invalid serilizarion data");
-
-            int nextIndex = 0;
-
-            if(values.Item2 == parent)
+            string rootData = items[index];
+            if (rootData == ")")
             {
-                var newNode = new BinaryNode(values.Item1, null, null);
-                if (node.Left == null)
-                    node.Left = newNode;
-                else
-                    node.Right = newNode;
-
-                nextIndex = BuildTree(items, ++index, newNode);
-                if(nextIndex <= items.Length)
-                {
-                    var newValues = GetNodeAndParent(items[nextIndex]);
-                    if(newValues.Item2 == parent)
-                    {
-                        node.Right = new BinaryNode(newValues.Item1, null, null);
-                        return BuildTree(items, ++nextIndex, newNode);
-                    }
-                    return nextIndex;
-                }
-                return int.MaxValue;
+                return null;
+            }
+            else if(rootData == "/")
+            {
+                index++;
+                return null;
             }
             else
             {
-                return index;
+                BinaryNode newNode = new BinaryNode(rootData, null, null);
+                index++;
+                newNode.Left = BuildNode(ref index, items);
+                newNode.Right = BuildNode(ref index, items);
+                index++;
+                return newNode;
             }
         }
 
