@@ -17,9 +17,64 @@ namespace PrepConsole
 
             //AVLTree();
 
-            Graph();
+            //Graph();
+
+            //MatrixShortestPath();
+
+            BitwiseTopics();
 
             Console.ReadLine();
+        }
+
+        private static void BitwiseTopics()
+        {
+            try
+            {
+                BitwiseTopics bit = new BitwiseTopics();
+
+                Console.WriteLine("10 -> 2 :" + bit.ConvertIntValue(2, 10));
+                Console.WriteLine("15 -> 2 :" + bit.ConvertIntValue(2, 15));
+                Console.WriteLine("1 -> 2 :" + bit.ConvertIntValue(2, 1));
+                Console.WriteLine("0 -> 2 :" + bit.ConvertIntValue(2, 0));
+                Console.WriteLine("13 -> 2 :" + bit.ConvertIntValue(2, 13));
+
+                Console.WriteLine("17 -> 16 :" + bit.ConvertIntValue(16, 17));
+                Console.WriteLine("253 -> 16 :" + bit.ConvertIntValue(16, 253));
+                Console.WriteLine("31 -> 16 :" + bit.ConvertIntValue(16, 31));
+                Console.WriteLine("32 -> 16 :" + bit.ConvertIntValue(16, 32));
+                Console.WriteLine("13 -> 16 :" + bit.ConvertIntValue(16, 13));
+                Console.WriteLine("1 -> 16 :" + bit.ConvertIntValue(16, 1));
+                Console.WriteLine("15 -> 16 :" + bit.ConvertIntValue(16, 15));
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private static void MatrixShortestPath()
+        {
+            try
+            {
+                int[,] mat = new int[,]
+                {
+                    {2,1,5,1 },
+                    {3,4,2,2 },
+                    { 1,2,3,3},
+                    {1,3,2,4 }
+                };
+
+                GraphTopics gt = new GraphTopics();
+
+                //gt.MatrixUniquePaths(mat, 4, 4);
+
+                gt.MatrixUniquePathsIterative(mat, 4, 4);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         private static void Graph()
@@ -45,10 +100,10 @@ namespace PrepConsole
 
             GraphTopics gt = new GraphTopics();
 
-            gt.FindShortedPath(graph, 0, 4);
-            gt.FindShortedPath(graph, 0, 8);
-            gt.FindShortedPath(graph, 3, 4);
-            gt.FindShortedPath(graph, 8, 5);
+            gt.FindShortestPath(graph, 0, 4);
+            gt.FindShortestPath(graph, 0, 8);
+            gt.FindShortestPath(graph, 3, 4);
+            gt.FindShortestPath(graph, 8, 5);
         }
 
         private static void AVLTree()

@@ -11,7 +11,7 @@ namespace Prep
     public class GraphTopics
     {
         //should use priority queue - min heap with  values values as weights
-        public void FindShortedPath(GraphM graph, int src, int dest)
+        public void FindShortestPath(GraphM graph, int src, int dest)
         {
             MinHeap heap = new MinHeap(graph.Vertices.GetLength(0));
 
@@ -73,7 +73,7 @@ namespace Prep
             
         }
 
-        public void FindShortedPath(Graph graph, int src, int dest)
+        public void FindShortestPath(Graph graph, int src, int dest)
         {
             MinHeap heap = new MinHeap(graph.Vertices.GetLength(0));
 
@@ -132,6 +132,66 @@ namespace Prep
 
                 Console.WriteLine();
             }
+        }
+
+        public void MatrixUniquePaths(int[,] matrix, int m, int n)
+        {
+            var spt = findShortesPath(m - 1, n - 1, ref matrix, 2, 1);
+        }
+
+        public void MatrixUniquePathsIterative(int[,] matrix, int m, int n)
+        {
+            int si = 2;
+            int sj = 1;
+
+            matrix[si, sj] = 0;
+
+            for (int i = si+1; i < m; i++)
+            {
+                matrix[i, sj] = matrix[i - 1, sj] + matrix[i, sj];  
+            }
+
+            for (int j = sj+1; j < n; j++)
+            {
+                matrix[si, j] = matrix[si, j - 1] + matrix[si, j];
+            }
+
+            for (int i = si+1; i < m; i++)
+            {
+                for (int j = sj+1; j < n; j++)
+                {
+                    var p1 = matrix[i - 1, j];
+                    var p2 = matrix[i, j-1];
+
+                    var sp = p1 > p2 ? p2 : p1;
+
+                    matrix[i, j] = sp + matrix[i, j];
+                }
+            }
+
+            var result = matrix[m - 1, n - 1];
+        }
+
+        private int findShortesPath(int i, int j, ref int[,] matrix, int srci, int srcj)
+        {
+            if (i < srci || j < srcj)
+                return int.MaxValue;
+
+            int p1, p2;
+
+            if (i == 0)
+                p1 = int.MaxValue;
+            else
+                p1 = findShortesPath(i - 1, j, ref matrix, srci, srcj);
+
+            if (j == 0)
+                p2 = int.MaxValue;
+            else
+                p2 = findShortesPath(i, j - 1, ref matrix, srci, srcj);
+
+            var sp = p1 > p2 ? p2 : p1;
+
+            return i == srci && j == srcj ? 0 : sp + matrix[i, j];
         }
     }
 
