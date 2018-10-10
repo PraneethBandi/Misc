@@ -28,14 +28,19 @@ namespace Prep.Model
     public class LinkedListNode
     {
         public LinkedListNode Next;
-        public object Data;
+        public int Data;
+    }
+
+    public class LinkedList
+    {
+        public LinkedListNode Head;
     }
 
     public class DoubleListNode
     {
         public DoubleListNode Next;
         public DoubleListNode Prev;
-        public object Data;
+        public int Data;
     }
 
     public class GraphNode

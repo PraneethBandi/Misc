@@ -360,6 +360,31 @@ namespace Prep
             }
         }
 
+
+        public BinaryNode InvertTree(BinaryNode root)
+        {
+            if (root == null)
+                return null;
+
+            InvertSubTree(root);
+            return root;
+        }
+
+        private void InvertSubTree(BinaryNode node)
+        {
+            if (node == null)
+                return;
+
+            if (node.Left != null)
+                InvertSubTree(node.Left);
+            if (node.Right != null)
+                InvertSubTree(node.Right);
+
+            var temp = node.Left;
+            node.Left = node.Right;
+            node.Right = temp;
+        }
+
     }
 
 

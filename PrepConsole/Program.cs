@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Prep;
 using Prep.Model;
 
@@ -13,7 +14,7 @@ namespace PrepConsole
 
             //Sorting();
 
-            //Trees();
+            Trees();
 
             //AVLTree();
 
@@ -21,9 +22,96 @@ namespace PrepConsole
 
             //MatrixShortestPath();
 
-            BitwiseTopics();
+            //BitwiseTopics();
+
+            //LinkedListTopics();
+
+            //ArrayTopics();
 
             Console.ReadLine();
+        }
+
+        private static void ArrayTopics()
+        {
+            int[] a = new int[] { -6, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            int[] b = new int[] { -6, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13 };
+            int[] c = new int[] { 1 };
+            int[] d = new int[] { 14, 15};
+            
+
+            
+            ArrayTopics arr = new ArrayTopics();
+            Console.WriteLine(arr.FindOrInsert(a, 26));
+            Console.WriteLine(arr.FindOrInsert(a, -7));
+            Console.WriteLine(arr.FindOrInsert(b, 12));
+            Console.WriteLine(arr.FindOrInsert(b, 2));
+
+
+        }
+
+        private static void LinkedListTopics()
+        {
+            try
+            {
+                int[] a = new int[] { 15, 14, 2, 13, 12, 11, 10, 10, 9, 8, 5, 7, 6, 5, 20, 4, 12, 3, 2, 1, 0, -1, -2, -6, 18, 19, 21, 23, 24, 25 };
+
+                LinkedListTopics ls = new LinkedListTopics();
+                //var node = ls.CreateLinkedList(a);
+                //ls.printLinkedList(node);
+
+                //var node20 = ls.FindNode(node, 20);
+                //var node25 = ls.FindNode(node, 25);
+
+                //node25.Next = node20;
+
+                //var exists = ls.isCycleExists(node);
+
+                //var loopNode = ls.FindLoopNode(node.Head);
+
+
+                int[] b = new int[] { 24115, -75629, -46517, 30105, 19451, -82188, 99505, 6752, -36716, 54438, -51501, 83871, 11137, -53177,
+                    22294, -21609, -59745, 53635, -98142, 27968, -260, 41594, 16395, 19113, 71006, -97942, 42082, -30767, 85695, -73671 };
+                var c = b.ToList();
+
+                var r = ls.maxset(c);
+
+
+
+                //var sorted = ls.SortLinkedList(node);
+                //var sortedList = new LinkedList() { Head = sorted };
+                //ls.printLinkedList(sortedList);
+
+                //ls.DeleteNode(sortedList, 20);
+                //ls.printLinkedList(sortedList);
+
+                //ls.DeleteNode(sortedList, -6);
+                //ls.printLinkedList(sortedList);
+
+                //ls.DeleteNode(sortedList, -1);
+                //ls.printLinkedList(sortedList);
+
+                //ls.DeleteNode(sortedList, 25);
+                //ls.printLinkedList(sortedList);
+
+                //var reverse = ls.ReverseLinkedList(sortedList);
+                //ls.printLinkedList(new LinkedList() { Head = reverse });
+
+                //var node1 = ls.CreateLinkedList(a);
+                //ls.printLinkedList(node);
+
+                //var dupes = ls.RemoveDupes(node1);
+                //ls.printLinkedList(new LinkedList() { Head = dupes });
+
+                //ls.printLinkedList(node1);
+                //var ithNode = ls.returnIth(node, 10);
+                //Console.WriteLine(ithNode == null ? "null" : ithNode.Data.ToString());
+
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
         }
 
         private static void BitwiseTopics()
@@ -159,11 +247,20 @@ namespace PrepConsole
                     tree.InsertData(a[i], node);
                 }
 
+                var result = tree.InOrderTraversal(node);
+                foreach (var item in result) { Console.Write($"{item} | "); }
+
+                Console.WriteLine();
+
+                var invert = tree.InvertTree(node);
+                var result2 = tree.InOrderTraversal(invert);
+                foreach (var item in result2) { Console.Write($"{item} | "); }
+
                 //Console.WriteLine("LvTraversal");
                 //tree.LevelOrderTraversal(new List<BinaryNode>() { node });
 
-                Console.WriteLine("lvtraversal WO mem");
-                tree.LevelOrderNodeWOMem(node);
+                //Console.WriteLine("lvtraversal WO mem");
+                //tree.LevelOrderNodeWOMem(node);
 
                 ////Console.WriteLine($"Height:{tree.FindHeight(node)}");
 
@@ -193,13 +290,13 @@ namespace PrepConsole
                 //foreach (var item in result) { Console.Write($"{item} | "); }
                 //Console.WriteLine();
 
-                Console.WriteLine(tree.SearchDataInBST(8, node));
-                Console.WriteLine(tree.SearchDataInBST(3, node));
-                Console.WriteLine(tree.SearchDataInBST(-6, node));
-                Console.WriteLine(tree.SearchDataInBST(19, node));
-                Console.WriteLine(tree.SearchDataInBST(22, node));
-                Console.WriteLine(tree.SearchDataInBST(15, node));
-                Console.WriteLine(tree.SearchDataInBST(20, node));
+                //Console.WriteLine(tree.SearchDataInBST(8, node));
+                //Console.WriteLine(tree.SearchDataInBST(3, node));
+                //Console.WriteLine(tree.SearchDataInBST(-6, node));
+                //Console.WriteLine(tree.SearchDataInBST(19, node));
+                //Console.WriteLine(tree.SearchDataInBST(22, node));
+                //Console.WriteLine(tree.SearchDataInBST(15, node));
+                //Console.WriteLine(tree.SearchDataInBST(20, node));
 
             }
             catch (Exception ex)
