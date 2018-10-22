@@ -14,7 +14,7 @@ namespace PrepConsole
 
             //Sorting();
 
-            Trees();
+            //Trees();
 
             //AVLTree();
 
@@ -28,7 +28,20 @@ namespace PrepConsole
 
             //ArrayTopics();
 
+            Dynnamic();
+
             Console.ReadLine();
+        }
+
+        private static void Dynnamic()
+        {
+            DynnamicP p = new DynnamicP();
+            //p.findFibonacci(10);
+            //p.findFibonacci(15);
+            //p.findFibonacci(1);
+
+            var exists = p.FindSubset(new int[] { 4, 34, -3, 4, 12, 5, 2, -2 }, 7);
+            Console.WriteLine(exists);
         }
 
         private static void ArrayTopics()

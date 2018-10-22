@@ -204,7 +204,7 @@ namespace Prep
             int parentIndex = 0;
             do
             {
-                parentIndex = (int)Math.Floor(Convert.ToDouble((index - 1) / 2));
+                parentIndex = (int)System.Math.Floor(Convert.ToDouble((index - 1) / 2));
                 if (a[index] > a[parentIndex] && parentIndex >= 0)
                 {
                     swapEle(ref a, index, parentIndex);

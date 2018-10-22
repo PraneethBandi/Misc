@@ -385,6 +385,59 @@ namespace Prep
             node.Right = temp;
         }
 
+        public BinaryNode FindLowestCommonAncestor(BinaryNode root, BinaryNode a, BinaryNode b)
+        {
+            if (root == null)
+                return null;
+
+            if (a == null || b == null)
+                return null;
+
+            if (a == b)
+                return a;
+
+            return fLCA(root, a.Data, b.Data);
+        }
+
+        private BinaryNode fLCA(BinaryNode root, int left, int right)
+        {
+            if (root == null)
+                return null;
+    
+            if (root.Data < left && root.Data < right)
+                return fLCA(root.Left, left, right);
+            else if(root.Data > left && root.Data > right)
+                return fLCA(root.Right, left, right);
+
+            return root;
+        }
+
+        public BinaryNode FindLowestCommonAncestorIterative(BinaryNode root, BinaryNode a, BinaryNode b)
+        {
+            if (root == null)
+                return null;
+
+            if (a == null || b == null)
+                return null;
+
+            if (a == b)
+                return a;
+
+            var temp = root;
+
+            while(temp != null)
+            {
+                if (temp.Data < a.Data && temp.Data < b.Data)
+                    temp = temp.Left;
+                else if (temp.Data > a.Data && temp.Data > b.Data)
+                    temp = temp.Right;
+
+                return temp;
+            }
+
+            return null;
+        }
+
     }
 
 
